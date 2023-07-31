@@ -28,7 +28,7 @@ const Landing = () => {
           </Link>
           <Link
             className="flex max-w-xs flex-col  items-center justify-evenly gap-4 rounded-xl bg-[#2f2f2f] p-4 text-white hover:bg-white/20"
-            href="https://github.com/sohan9819"
+            href="https://github.com/sohan9819/notes_app"
             target="_blank"
           >
             <h3 className="text-xl ">Feel free to checkout and cotribute </h3>

@@ -12,7 +12,8 @@ export default function Layout({ children }: LayoutProps) {
   const { data: sessionData } = useSession();
 
   return (
-    <div className="min-h-screen bg-[#191919] px-4">
+    // <div className="h-max min-h-screen bg-[#191919] px-4">
+    <div className="h-max min-h-screen bg-[#0d1117] px-4">
       <Header />
       <Navbar />
       {sessionData ? <main>{children}</main> : <main>{children}</main>}

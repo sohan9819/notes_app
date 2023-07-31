@@ -55,6 +55,8 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    notes         Note[]
+    tags          Tag[]
 }
 
 model VerificationToken {
@@ -63,4 +65,34 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Note {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    title     String
+    content   String    @db.Text
+    user      User      @relation(fields: [userId], references: [id])
+    userId    String
+    NoteTag   NoteTag[]
+}
+
+model Tag {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    title     String
+    user      User      @relation(fields: [userId], references: [id])
+    userId    String
+    NoteTag   NoteTag[]
+}
+
+model NoteTag {
+    noteId String
+    tagId  String
+    note   Note   @relation(fields: [noteId], references: [id])
+    tag    Tag    @relation(fields: [tagId], references: [id])
+
+    @@id([noteId, tagId])
 }

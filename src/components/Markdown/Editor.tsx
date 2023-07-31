@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import useCodeMirror from "~/utils/useCodeMirror";
-import { EditorState } from "@codemirror/state";
+import { type EditorState } from "@codemirror/state";
 
 interface Props {
   initialDoc: string;

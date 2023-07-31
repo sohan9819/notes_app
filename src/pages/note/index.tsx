@@ -1,6 +1,6 @@
 import React from "react";
 import { NoteForm } from "~/components";
-import { NoteData } from "~/utils/types";
+import { type NoteData } from "~/utils/types";
 
 function NewNote() {
   const submitHandler = (note: NoteData) => {

@@ -23,7 +23,7 @@ const Preview: React.FC<Props> = ({ doc }: { doc: string }) => {
                 {...props}
                 style={oneDark}
                 language={match[1]}
-                PreTag="div"
+                PreTag={"div"}
               >
                 {String(children).replace(/\n$/, "")}
               </SyntaxHighlighter>

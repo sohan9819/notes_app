@@ -60,7 +60,7 @@ const useCodeMirror = <T extends Element>(
     return () => {
       view.destroy();
     };
-  }, [onChange, props.initialDoc, refContainer]);
+  }, [refContainer]);
 
   return [refContainer, editorView];
 };

@@ -89,10 +89,10 @@ model Tag {
 }
 
 model NoteTag {
-    noteId String
-    tagId  String
     note   Note   @relation(fields: [noteId], references: [id])
+    noteId String
     tag    Tag    @relation(fields: [tagId], references: [id])
+    tagId  String
 
     @@id([noteId, tagId])
 }

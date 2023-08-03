@@ -23,9 +23,12 @@ const Notes = () => {
           >
             Create
           </Link>
-          <button className="rounded-md bg-gray-200 px-2 py-1 text-gray-700">
+          <Link
+            href={"/tag"}
+            className="rounded-md bg-gray-200 px-2 py-1 text-gray-700"
+          >
             Tags
-          </button>
+          </Link>
         </div>
       </div>
       <div className="flex w-full max-w-2xl items-start gap-4">
@@ -57,7 +60,7 @@ const Notes = () => {
           />
         </div>
       </div>
-      <div>
+      <div className="mt-10">
         {isLoading && (
           <div className="flex w-full items-center justify-center text-white">
             <StageSpinner />

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { api } from "~/utils/api";
 import NoteCard from "./NoteCard";
 import { StageSpinner } from "react-spinners-kit";
@@ -8,9 +8,26 @@ import { type RawTag } from "~/utils/types";
 
 const Notes = () => {
   const [selectedTags, setSelectedTags] = useState<RawTag[]>([]);
+  const [search, setSearch] = useState("");
 
   const { data: notes, isLoading } = api.note.getAll.useQuery();
   const { data: tags, isLoading: isTagsLoading } = api.tag.getAll.useQuery();
+
+  const searchRegex = useMemo(() => {
+    return new RegExp(search, "ig");
+  }, [search]);
+
+  const filteredNotes = useMemo(() => {
+    return notes?.filter((note) => {
+      return (
+        (search === "" || note.title.match(searchRegex)) &&
+        (selectedTags.length === 0 ||
+          selectedTags.every((tag) =>
+            note.NoteTag.some((nt) => nt.tagId === tag.value)
+          ))
+      );
+    });
+  }, [notes, search, searchRegex, selectedTags]);
 
   return (
     <div className="container flex h-full w-full flex-col items-center gap-4">
@@ -42,6 +59,8 @@ const Notes = () => {
             className="h-[2.6rem] w-full rounded-md px-2 py-1 text-xl text-[#0d1117] outline-none"
             required
             name="title"
+            value={search}
+            onChange={(e) => void setSearch(e.target.value)}
           />
         </div>
         <div className="flex w-full flex-col gap-1">
@@ -61,16 +80,20 @@ const Notes = () => {
         </div>
       </div>
       <div className="mt-10">
-        {isLoading && (
+        {isLoading ? (
           <div className="flex w-full items-center justify-center text-white">
             <StageSpinner />
           </div>
+        ) : (
+          <div className="flex w-full flex-wrap items-start justify-center gap-4">
+            {filteredNotes?.map((note) => (
+              <NoteCard key={note.id} note={note} />
+            ))}
+            {filteredNotes?.length === 0 && (
+              <h2 className="text-2xl text-white">No notes are found 🔍</h2>
+            )}
+          </div>
         )}
-      </div>
-      <div className="flex w-full flex-wrap items-start justify-center gap-4">
-        {notes?.map((note) => (
-          <NoteCard key={note.id} note={note} />
-        ))}
       </div>
     </div>
   );

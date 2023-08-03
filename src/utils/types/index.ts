@@ -1,14 +1,15 @@
-export type Note = {
-  id: string;
-} & NoteData;
+import { type RouterOutputs } from "../api";
 
-export interface NoteData {
+export interface RawNote {
   title: string;
-  tags: Tag[];
-  markdown: string;
+  tags: RawTag[];
+  content: string;
 }
 
-export interface Tag {
-  id: string;
+export interface RawTag {
   label: string;
+  value: string;
 }
+
+export type GetAllNotes = RouterOutputs["note"]["getAll"];
+export type NoteCard = RouterOutputs["note"]["getAll"][0];

@@ -3,6 +3,7 @@ import Header from "./Header";
 // import Footer from "./Footer";
 import React from "react";
 import { useSession } from "next-auth/react";
+import { Toaster } from "react-hot-toast";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ export default function Layout({ children }: LayoutProps) {
       <Header />
       <Navbar />
       {sessionData ? <main>{children}</main> : <main>{children}</main>}
+      <Toaster position="top-right" />
     </div>
   );
 }

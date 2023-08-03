@@ -23,7 +23,7 @@ export const noteRouter = createTRPCRouter({
   getById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.prisma.note.findMany({
+      return ctx.prisma.note.findUnique({
         where: {
           userId: ctx.session.user.id,
           id: input.id,
@@ -67,7 +67,6 @@ export const noteRouter = createTRPCRouter({
         },
       });
     }),
-
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
@@ -83,11 +82,11 @@ export const noteRouter = createTRPCRouter({
         noteId: z.string(),
         title: z.string(),
         content: z.string(),
-        tags: z.array(z.string()),
+        tagIds: z.array(z.string()),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { title, content, tags, noteId } = input;
+      const { title, content, tagIds, noteId } = input;
       return await ctx.prisma.note.update({
         where: {
           id: noteId,
@@ -98,7 +97,7 @@ export const noteRouter = createTRPCRouter({
           userId: ctx.session.user.id,
           NoteTag: {
             deleteMany: {},
-            create: tags.map((tag) => ({
+            create: tagIds.map((tag) => ({
               tag: {
                 connect: {
                   id: tag,

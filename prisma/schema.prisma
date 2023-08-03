@@ -89,7 +89,7 @@ model Tag {
 }
 
 model NoteTag {
-    note   Note   @relation(fields: [noteId], references: [id])
+    note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
     noteId String
     tag    Tag    @relation(fields: [tagId], references: [id])
     tagId  String

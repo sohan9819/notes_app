@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 function NewNote() {
   const router = useRouter();
   const utils = api.useContext();
-  const { mutate: createNote } = api.note.create.useMutation({
+  const { mutateAsync: createNote, isLoading } = api.note.create.useMutation({
     onMutate: async (newNote) => {
       await utils.note.getAll.cancel();
       utils.note.getAll.setData(undefined, (prevNotes) => {
@@ -42,12 +42,11 @@ function NewNote() {
     },
     onSuccess: (data) => {
       console.log(data);
-      toast.success("Note created successfuly");
+      // toast.success("Note created successfuly");
       void router.push("/");
     },
     onError: (error) => {
       console.log("Create Note Error", error);
-      toast.error("Error creating a note");
     },
     onSettled: async () => {
       await utils.note.getAll.invalidate();
@@ -56,13 +55,30 @@ function NewNote() {
 
   const submitHandler = (note: RawNote) => {
     console.log(note);
-    createNote({ ...note, tagIds: note.tags.map((tag) => tag.value) });
+    const createNoteStatus = createNote({
+      ...note,
+      tagIds: note.tags.map((tag) => tag.value),
+    });
+
+    void toast.promise(createNoteStatus, {
+      loading: "Creating a new note...",
+      success: "Note created successfuly",
+      error: "Error creating a note",
+    });
   };
 
   return (
     <div className="container flex h-full w-full flex-col items-center gap-4">
-      <h1 className="text-2xl text-white">New Note</h1>
-      <NoteForm onSubmit={submitHandler} />
+      <div className="flex w-full max-w-2xl items-center justify-between">
+        <h1 className="text-4xl font-bold text-white">New Note</h1>
+        <button
+          className="rounded-md bg-blue-500 px-2 py-1 text-white"
+          onClick={() => void router.back()}
+        >
+          Back
+        </button>
+      </div>
+      <NoteForm onSubmit={submitHandler} disabled={isLoading} />
     </div>
   );
 }

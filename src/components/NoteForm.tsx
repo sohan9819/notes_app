@@ -1,23 +1,37 @@
-import { useState, useCallback, useRef, type FormEvent } from "react";
+import { useState, useCallback, type FormEvent } from "react";
 import Select from "react-select/creatable";
 import Markdown from "./Markdown";
 import { type RawTag, type RawNote } from "~/utils/types";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 interface NoteFormProps {
   onSubmit: (data: RawNote) => void;
+  noteFormState?: RawNote;
+  disabled: boolean;
 }
 
-function NoteForm({ onSubmit }: NoteFormProps) {
-  const titleRef = useRef<HTMLInputElement>(null);
-  const [doc, setDoc] = useState<string>("# Hello, World!\n");
-  const [selectedTags, setSelectedTags] = useState<RawTag[]>([]);
+function NoteForm({
+  onSubmit,
+  noteFormState = undefined,
+  disabled,
+}: NoteFormProps) {
+  const [title, setTitle] = useState<string>(
+    noteFormState ? noteFormState.title : ""
+  );
+  const [doc, setDoc] = useState<string>(
+    noteFormState ? noteFormState.content : "# Hello, World!\n"
+  );
+  const [selectedTags, setSelectedTags] = useState<RawTag[]>(
+    noteFormState ? noteFormState.tags : []
+  );
 
+  const router = useRouter();
   const utils = api.useContext();
   const { data: allTags, isLoading: isAllTagsLoading } =
     api.tag.getAll.useQuery();
-  const { mutate: createTag, isLoading: isCreateTagLoading } =
+  const { mutateAsync: createTag, isLoading: isCreateTagLoading } =
     api.tag.create.useMutation({
       onMutate: async (newTag) => {
         await utils.tag.getAll.cancel();
@@ -57,23 +71,30 @@ function NoteForm({ onSubmit }: NoteFormProps) {
       },
     });
 
-  const handleDocChange = useCallback((newDoc: string) => {
-    setDoc(newDoc);
+  const handleDocChange = useCallback(
+    (newDoc: string) => {
+      if (!disabled) {
+        setDoc(newDoc);
+      }
+    },
+    [disabled]
+  );
+
+  const handleTitleChange = useCallback((value: string) => {
+    setTitle(value);
   }, []);
 
   const handleOnSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
+    // const form = e.target as HTMLFormElement;
     if (doc === "" || doc.length <= 20 || doc === "# Hello, World!\n") {
       console.log("Enter valid inputs");
     } else {
       onSubmit({
-        title: titleRef.current!.value,
+        title,
         tags: selectedTags,
         content: doc,
       });
-      form.reset();
-      setDoc("# Hello, World!\n");
     }
   };
 
@@ -88,12 +109,15 @@ function NoteForm({ onSubmit }: NoteFormProps) {
             Title
           </label>
           <input
-            ref={titleRef}
             type="text"
             id="title"
             className="h-[2.6rem] w-full rounded-md px-2 py-1 text-xl text-[#0d1117] outline-none"
             required
             name="title"
+            value={title}
+            onChange={(e) => handleTitleChange(e.target.value)}
+            maxLength={60}
+            disabled={disabled}
           />
         </div>
         <div className="flex w-full flex-col gap-1">
@@ -106,9 +130,16 @@ function NoteForm({ onSubmit }: NoteFormProps) {
             required
             name="tags"
             onCreateOption={(tagValue) => {
-              tagValue.replace(/ /g, "").length <= 10
-                ? createTag({ tag: tagValue })
-                : toast.error("Tags should no have more than 10 letters");
+              if (tagValue.replace(/ /g, "").length <= 10) {
+                const createTagStatus = createTag({ tag: tagValue });
+                void toast.promise(createTagStatus, {
+                  loading: "Creating a new tag...",
+                  success: "Created new tag successfuly",
+                  error: "Error creating tag",
+                });
+              } else {
+                toast.error("Tags should no have more than 10 letters");
+              }
             }}
             options={
               allTags
@@ -119,11 +150,12 @@ function NoteForm({ onSubmit }: NoteFormProps) {
             }
             value={selectedTags}
             onChange={(tags) =>
-              tags.length < 5
+              tags.length < 10
                 ? setSelectedTags(tags as RawTag[])
                 : toast.error("Maximum only 4 tags are allowed")
             }
             isLoading={isAllTagsLoading || isCreateTagLoading}
+            isDisabled={disabled}
           />
         </div>
       </div>
@@ -132,6 +164,7 @@ function NoteForm({ onSubmit }: NoteFormProps) {
         <button
           className="rounded-md bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600 "
           type="submit"
+          disabled={disabled}
         >
           Save
         </button>
@@ -139,6 +172,8 @@ function NoteForm({ onSubmit }: NoteFormProps) {
         <button
           className="rounded-md bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-600"
           type="reset"
+          onClick={() => void router.back()}
+          disabled={disabled}
         >
           Cancel
         </button>

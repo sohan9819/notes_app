@@ -5,7 +5,6 @@ import { StageSpinner } from "react-spinners-kit";
 import { EditTag } from "~/components";
 
 const Tags = () => {
-  const utils = api.useContext();
   const { data: tagsList, isLoading: isTagsLoading } =
     api.tag.getAll.useQuery();
 

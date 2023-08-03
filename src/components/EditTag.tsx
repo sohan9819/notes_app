@@ -8,7 +8,7 @@ interface EditTagProps {
   key: string;
 }
 
-export default function EditTag({ tag, key }: EditTagProps) {
+export default function EditTag({ tag }: EditTagProps) {
   const [isEdit, setIsEdit] = useState(false);
   const [title, setTitle] = useState(tag.title);
 

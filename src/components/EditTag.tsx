@@ -20,6 +20,9 @@ export default function EditTag({ tag }: EditTagProps) {
       },
       onError: (error) => {
         console.log("Update Tag Error : ", error);
+        toast("Make sure your tag name is unique", {
+          icon: "❗",
+        });
         setTitle(tag.title);
       },
       onSettled: () => {
@@ -61,7 +64,7 @@ export default function EditTag({ tag }: EditTagProps) {
   };
 
   return (
-    <tr className="border-b">
+    <tr className="border-b border-b-white/10 ">
       <td scope="row" className="w-[60%] py-4 text-center font-medium">
         {isEdit ? (
           <form onSubmit={handleSubmit}>

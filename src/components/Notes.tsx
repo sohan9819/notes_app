@@ -61,6 +61,7 @@ const Notes = () => {
             name="title"
             value={search}
             onChange={(e) => void setSearch(e.target.value)}
+            placeholder="Search for Title"
           />
         </div>
         <div className="flex w-full flex-col gap-1">
@@ -76,6 +77,7 @@ const Notes = () => {
             value={selectedTags}
             onChange={(tags) => setSelectedTags(tags as RawTag[])}
             isLoading={isTagsLoading}
+            placeholder={"Search for Tags"}
           />
         </div>
       </div>

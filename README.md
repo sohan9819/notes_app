@@ -4,6 +4,8 @@
 
 Try Now : [Click here](https://notes-app-tuo1.vercel.app/)
 
+Developed a feature-rich NotesApp using Next.js, incorporating authentication options through Google, GitHub, and Discord. Leveraging the T3 stack with Supabase as the database, the app offers a seamless and secure user experience. Utilizing TypeScript, TRPC, Prisma, and Tailwind CSS, I ensured a robust and efficient codebase. The app enables users to create notes using Markdown, with a custom Markdown editor implemented through CodeMirror and React-Markdown. Additionally, users can add tags to categorize their notes, promoting better organization and accessibility.
+
 # Create T3 App
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.

@@ -8,7 +8,7 @@ interface EditTagProps {
   key: string;
 }
 
-export default function EditTag({ tag, key }: EditTagProps) {
+export default function EditTag({ tag }: EditTagProps) {
   const [isEdit, setIsEdit] = useState(false);
   const [title, setTitle] = useState(tag.title);
 
@@ -20,6 +20,9 @@ export default function EditTag({ tag, key }: EditTagProps) {
       },
       onError: (error) => {
         console.log("Update Tag Error : ", error);
+        toast("Make sure your tag name is unique", {
+          icon: "❗",
+        });
         setTitle(tag.title);
       },
       onSettled: () => {
@@ -61,7 +64,7 @@ export default function EditTag({ tag, key }: EditTagProps) {
   };
 
   return (
-    <tr className="border-b">
+    <tr className="border-b border-b-white/10 ">
       <td scope="row" className="w-[60%] py-4 text-center font-medium">
         {isEdit ? (
           <form onSubmit={handleSubmit}>

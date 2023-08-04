@@ -103,7 +103,7 @@ function NoteForm({
       className="flex w-full flex-col items-center justify-center gap-4"
       onSubmit={handleOnSubmit}
     >
-      <div className="flex w-full max-w-2xl items-start gap-4">
+      <div className="flex w-full max-w-2xl flex-wrap items-start gap-4 md:flex-nowrap">
         <div className="flex w-full flex-col gap-1">
           <label htmlFor="title" className="text-xl text-white">
             Title

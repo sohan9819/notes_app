@@ -48,7 +48,7 @@ const Notes = () => {
           </Link>
         </div>
       </div>
-      <div className="flex w-full max-w-2xl items-start gap-4">
+      <div className="flex w-full max-w-2xl flex-wrap items-start gap-4 md:flex-nowrap">
         <div className="flex w-full flex-col gap-1">
           <label htmlFor="title" className="text-xl text-white">
             Title
@@ -64,7 +64,7 @@ const Notes = () => {
             placeholder="Search for Title"
           />
         </div>
-        <div className="flex w-full flex-col gap-1">
+        <div className="flex w-full flex-col gap-1 ">
           <label htmlFor="tags" className="text-xl text-white">
             Tags
           </label>

@@ -19,7 +19,7 @@ const ProfileDropDown = ({ sessionData }: ProfileDropDownTypes) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ">
+        <Menu.Button className="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md bg-blue-500 px-3 py-2  font-semibold text-white shadow-sm ">
           {sessionData?.user.name}
         </Menu.Button>
       </div>
@@ -85,12 +85,13 @@ const ProfileDropDown = ({ sessionData }: ProfileDropDownTypes) => {
                 <button
                   type="submit"
                   className={classNames(
-                    active ? "bg-red-100 text-red-500" : "text-red-500",
-                    "block w-full px-4 py-2 text-left text-sm"
+                    active
+                      ? "mx-auto block w-10/12 rounded-md bg-red-700 px-4 py-2 text-white"
+                      : "mx-auto block w-10/12 rounded-md bg-red-500 px-4 py-2 text-white"
                   )}
                   onClick={() => void signOut()}
                 >
-                  Sign out
+                  SignOut
                 </button>
               )}
             </Menu.Item>

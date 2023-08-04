@@ -2,6 +2,8 @@
 
 ![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=notes-app-tuo1)
 
+![image](https://github.com/sohan9819/notes_app/assets/64985447/5892c18e-7b3f-49d2-96ab-82a285dc29a1)
+
 Try Now : [Click here](https://notes-app-tuo1.vercel.app/)
 
 Developed a feature-rich NotesApp using Next.js, incorporating authentication options through Google, GitHub, and Discord. Leveraging the T3 stack with Supabase as the database, the app offers a seamless and secure user experience. Utilizing TypeScript, TRPC, Prisma, and Tailwind CSS, I ensured a robust and efficient codebase. The app enables users to create notes using Markdown, with a custom Markdown editor implemented through CodeMirror and React-Markdown. Additionally, users can add tags to categorize their notes, promoting better organization and accessibility.

@@ -21,8 +21,8 @@ export const tagRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.prisma.tag.findMany({
         where: {
-          userId: ctx.session.user.id,
           id: input.id,
+          userId: ctx.session.user.id,
         },
       });
     }),

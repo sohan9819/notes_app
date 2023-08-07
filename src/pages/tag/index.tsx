@@ -24,12 +24,12 @@ const Tags = () => {
       <div className="flex w-full max-w-2xl justify-between ">
         <h1 className="text-4xl font-bold text-white">Tags</h1>
         <div className="flex items-center justify-center gap-4">
-          <Link
+          {/* <Link
             href={"/note"}
             className="rounded-md bg-blue-500 px-2 py-1 text-white"
           >
             Create
-          </Link>
+          </Link> */}
           <Link
             href={"/"}
             className="rounded-md bg-gray-200 px-2 py-1 text-gray-700"
